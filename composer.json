@@ -1,0 +1,21 @@
+{
+  "name": "dparadiz/state-machine",
+  "description": "State Machine",
+  "minimum-stability": "stable",
+  "authors": [
+    {
+      "name": "Dejan Paradiz",
+      "email": "dparadiz@gmail.com"
+    }
+  ],
+  "require": {
+    "symfony/http-kernel": "2.8.x-dev",
+    "symfony/http-foundation": "2.8.x-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "StateMachine\\": "src/",
+      "SwitchStateMachine\\": "src/"
+    }
+  }
+}
