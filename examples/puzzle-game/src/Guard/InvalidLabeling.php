@@ -19,7 +19,6 @@ class InvalidLabeling implements Guard
         if ($request->query->has('newBoxLabels')) {
             $boxes = $state->getStateMachine()->getVariable('boxes', []);
             $newLabeling = $request->query->get('newBoxLabels', []);
-
             foreach ($boxes as $key => $box) {
                 if (isset($newLabeling[$key]) && $box['content'] == $newLabeling[$key]) {
                     $invalidLabels = false;

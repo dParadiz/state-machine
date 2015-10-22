@@ -19,18 +19,16 @@
                 choose.</p>
         </div>
     </div>
-
-    <form>
-        <div class="row">
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="alert alert-danger" role="alert">Labeling is  incorrect</div>
-                    <button type="submit" value="1" class="btn btn-block btn-primary" name="tryAgain">Try again</button>
-                </div>
-            </div>
-        </div>
-    </form>
+    <div class="row">
+        <div class="col-xs-12">{% block content %}{% endblock %}</div>
+    </div>
 </div>
-
+{% if debug %}
+    <footer class="container-fluid" style="position: absolute;bottom: 0;width: 100%;font-size: 0.8em;">
+        {% for log in debug %}
+            <p class="alert alert-info">{{ log }}</p>
+        {% endfor %}
+    </footer>
+{% endif %}
 </body>
 </html>

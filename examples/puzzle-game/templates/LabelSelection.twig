@@ -1,0 +1,31 @@
+{% extends "base.twig" %}
+
+    {% block content %}
+        <form>
+            <div class="row">
+                {% for key, box in boxes %}
+                    <div class="col-xs-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Box {{ key }}</div>
+                            <div class="panel-body">
+                                {% if key == selectedBox %}
+                                    <p class="text-center"> {{ box.label }} / {{ box.content }}</p>
+                                {% else %}
+                                    <p class="text-center"> {{ box.label }}</p>
+                                {% endif %}
+                                <label for="newBoxLabel_{{ key }}">Select new label</label>
+                                <select id="newBoxLabel_{{ key }}" name="newBoxLabels[{{ key }}]">
+                                    {% for content in boxContent %}
+                                        <option value="{{ content }}">{{ content }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">
+                Set new labels
+            </button>
+        </form>
+    {% endblock %}

@@ -40,9 +40,12 @@ class Transition
     public function canBeExecuted(Request $request, State $state)
     {
         foreach ($this->guards as $guard) {
+
             if (!$guard->isAllowed($request, $state)) {
+                $state->getStateMachine()->executionLog[] = 'Guard ' . get_class($guard) . ' prevents transition to ' . get_class($this->endState);
                 return false;
             }
+            $state->getStateMachine()->executionLog[] = 'Guard ' . get_class($guard) . ' allows transition to ' . get_class($this->endState);
         }
 
         return true;

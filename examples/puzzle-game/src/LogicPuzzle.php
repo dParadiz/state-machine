@@ -3,6 +3,7 @@ namespace PuzzleGame;
 
 use StateMachine;
 use Symfony\Component\HttpFoundation\Response;
+use Twig_Environment;
 
 class LogicPuzzle extends StateMachine\StateMachine
 {
@@ -51,20 +52,22 @@ class LogicPuzzle extends StateMachine\StateMachine
     }
 
     /**
+     * @param Twig_Environment $twig
      * @return Response
      */
-    protected function getOutput()
+    public function getOutput(Twig_Environment $twig)
     {
         if (null === $this->currentState) {
             return null;
         }
 
-        $stateReflection = new \ReflectionClass($this->currentState);
+        $stateOutput = $this->currentState->getOutput();
+        if (null === $stateOutput) {
+            $stateOutput = [];
+        }
+        $stateOutput['debug'] = $this->executionLog;
 
-        ob_start();
-        extract($this->currentState->getOutput());
-        include EXAMPLE_PUZZLE_TEMPLATES . '/' . $stateReflection->getShortName() . '.phtml' ;
-        unset($stateReflection);
-        return new Response(ob_get_clean());
+        $stateReflection = new \ReflectionClass($this->currentState);
+        return new Response($twig->render($stateReflection->getShortName() . '.twig', $stateOutput));
     }
 }

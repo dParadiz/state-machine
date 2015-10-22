@@ -19,9 +19,9 @@ if ($session->has('switchStateMachine')) {
     $sm->initialize();
 }
 // process request by state machine and get output
-$smOutput = $sm->handle($request);
+$sm->handle($request);
 // save last sate
 $session->set('switchStateMachine', $sm);
 //send response
-$response = new Response($smOutput);
+$response = new Response($sm->getOutput());
 $response->send();

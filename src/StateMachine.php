@@ -42,7 +42,6 @@ abstract class StateMachine
 
     /**
      * @param Request $request
-     * @return mixed
      */
     public function handle(Request $request)
     {
@@ -50,10 +49,11 @@ abstract class StateMachine
             throw new \RuntimeException('Initial state must be set.');
         }
         $this->executionLog = [];
-        $this->executionLog[] = 'Current State ' . get_class($this->currentState);
+        $this->executionLog[] = 'Starting at state ' . get_class($this->currentState);
         $this->currentState->executeEntryActions($request);
 
         foreach ($this->currentState->getTransitions() as $transition) {
+
             // get transition that can be executed or stay in current state
             if ($transition->canBeExecuted($request, $this->currentState)) {
                 // exit current state
@@ -63,19 +63,17 @@ abstract class StateMachine
                 // set new state
                 $this->currentState = $transition->getEndState();
                 $this->currentState->executeEntryActions($request);
-                $this->executionLog[] = 'Next State ' . get_class($this->currentState);
+                $this->executionLog[] = 'Moving to state ' . get_class($this->currentState);
                 // only one transition can be executed for current state
                 break;
             }
         }
-
-        return $this->getOutput();
     }
 
     /**
      * @return mixed
      */
-    protected function getOutput()
+    public function getOutput()
     {
         if (null === $this->currentState) {
             return null;

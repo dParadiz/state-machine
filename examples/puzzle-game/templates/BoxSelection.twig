@@ -1,0 +1,22 @@
+{% extends "base.twig" %}
+
+    {% block content %}
+        <form>
+            <div class="row">
+                {% for key, box in boxes %}
+                    <div class="col-xs-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Box {{ key }}</div>
+                            <div class="panel-body">
+                                <p class="text-center"> {{ box.label }}</p>
+                                <button type="submit" class="btn btn-block btn-primary" name="selectedBox"
+                                        value="{{ key }}">
+                                    Pick a fruit from box
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </form>
+    {% endblock %}
