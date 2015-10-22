@@ -11,6 +11,8 @@ interface Action
 {
     /**
      * @param Request $request
+     * @param State $state
+     * @return
      */
-    public function execute(Request $request);
+    public function execute(Request $request, State $state);
 }

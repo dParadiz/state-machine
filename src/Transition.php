@@ -25,6 +25,7 @@ class Transition
     }
 
     /**
+     * Transition action that is executed before entering end state
      * @param Request $request
      */
     public function execute(Request $request)
@@ -33,12 +34,13 @@ class Transition
 
     /**
      * @param Request $request
+     * @param State $state
      * @return bool
      */
-    public function canBeExecuted(Request $request)
+    public function canBeExecuted(Request $request, State $state)
     {
         foreach ($this->guards as $guard) {
-            if (!$guard->isAllowed($request)) {
+            if (!$guard->isAllowed($request, $state)) {
                 return false;
             }
         }

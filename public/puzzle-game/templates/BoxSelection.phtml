@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Puzzle game</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap-theme.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h1>Correctly label the boxes</h1>
+
+            <p>You know that each is labeled incorrectly. You may ask me to pick one fruit from one box which you
+                choose.</p>
+        </div>
+    </div>
+
+    <form>
+        <div class="row">
+            <?php foreach ($boxes as $key => $box) : ?>
+                <div class="col-xs-4">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Box <?= $key; ?></div>
+                        <div class="panel-body">
+                            <p class="text-center"> <?= $box['label']; ?></p>
+                            <button type="submit" class="btn btn-block btn-primary" name="selectedBox"
+                                    value="<?= $key; ?>">
+                                Pick a fruit from box
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div
+            <?php endforeach; ?>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

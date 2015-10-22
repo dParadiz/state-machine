@@ -1,25 +1,34 @@
 <?php
-
 namespace StateMachine;
-
 
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class StateMachine
 {
+    use Variables;
+
+    /**
+     * Debuging log
+     * @var array
+     */
+    public $executionLog = [];
+
     /**
      * @var State
      */
     protected $currentState;
 
-    protected $initialState;
     /**
      * @var State[]
      */
     protected $states = [];
 
+    /**
+     * @param State $state
+     */
     public function addState(State $state)
     {
+        $state->setStateMachine($this);
         $this->states[] = $state;
     }
 
@@ -33,36 +42,45 @@ abstract class StateMachine
 
     /**
      * @param Request $request
+     * @return mixed
      */
     public function handle(Request $request)
     {
         if (null === $this->currentState) {
             throw new \RuntimeException('Initial state must be set.');
         }
-
+        $this->executionLog = [];
+        $this->executionLog[] = 'Current State ' . get_class($this->currentState);
         $this->currentState->executeEntryActions($request);
 
         foreach ($this->currentState->getTransitions() as $transition) {
-
-            if ($transition->canBeExecuted($request)) {
+            // get transition that can be executed or stay in current state
+            if ($transition->canBeExecuted($request, $this->currentState)) {
                 // exit current state
                 $this->currentState->executeExitActions($request);
                 // do transition action
                 $transition->execute($request);
                 // set new state
                 $this->currentState = $transition->getEndState();
+                $this->currentState->executeEntryActions($request);
+                $this->executionLog[] = 'Next State ' . get_class($this->currentState);
                 // only one transition can be executed for current state
                 break;
             }
         }
+
+        return $this->getOutput();
     }
 
     /**
-     * @return State
+     * @return mixed
      */
-    public function getCurrentState()
+    protected function getOutput()
     {
-        return $this->currentState;
+        if (null === $this->currentState) {
+            return null;
+        }
+        return $this->currentState->getOutput();
     }
 
     /**

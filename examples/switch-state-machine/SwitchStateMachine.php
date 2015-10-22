@@ -1,6 +1,6 @@
 <?php
-
 namespace SwitchStateMachine;
+
 use StateMachine;
 
 class SwitchStateMachine extends StateMachine\StateMachine

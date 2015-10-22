@@ -9,13 +9,13 @@
     }
   ],
   "require": {
-    "symfony/http-kernel": "2.8.x-dev",
     "symfony/http-foundation": "2.8.x-dev"
   },
   "autoload": {
     "psr-4": {
       "StateMachine\\": "src/",
-      "SwitchStateMachine\\": "src/"
+      "SwitchStateMachine\\": "examples/switch-state-machine",
+      "PuzzleGame\\": "examples/puzzle-game"
     }
   }
 }

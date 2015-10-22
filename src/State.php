@@ -5,29 +5,45 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class State
 {
+    use Variables;
+
     /**
+     * List of transitions from this state
      * @var Transition[]
      */
     protected $transitions = [];
+
     /**
+     * List of actions that are executed when entering the state
      * @var Action[]
      */
     protected $entryActions = [];
+
     /**
+     * List of actions that are executed when exiting the state
      * @var Action[]
      */
     protected $exitActions = [];
-    /**
-     * @var \ArrayObject
-     */
-    private $variables;
 
     /**
-     * State constructor.
+     * @var StateMachine
      */
-    public function __construct()
+    protected $stateMachine;
+
+    /**
+     * @param StateMachine $stateMachine
+     */
+    public function setStateMachine($stateMachine)
     {
-        $this->variables = new \ArrayObject();
+        $this->stateMachine = $stateMachine;
+    }
+
+    /**
+     * @return StateMachine
+     */
+    public function getStateMachine()
+    {
+        return $this->stateMachine;
     }
 
     /**
@@ -51,8 +67,10 @@ abstract class State
      */
     public function executeEntryActions(Request $request)
     {
+
         foreach ($this->entryActions as $action) {
-            $action->execute($request);
+            $this->getStateMachine()->executionLog[] = 'Entry action ' . get_class($action);
+            $action->execute($request, $this);
         }
     }
 
@@ -70,7 +88,8 @@ abstract class State
     public function executeExitActions(Request $request)
     {
         foreach ($this->exitActions as $action) {
-            $action->execute($request);
+            $this->getStateMachine()->executionLog[] = 'Exit action ' . get_class($action);
+            $action->execute($request, $this);
         }
     }
 
@@ -85,28 +104,9 @@ abstract class State
     /**
      * @return mixed
      */
-    abstract public function getOutput();
-
-    /**
-     * @param $name
-     * @param $value
-     */
-    protected function setVariable($name, $value)
+    public function getOutput()
     {
-        $this->variables->offsetSet($name, $value);
+
     }
 
-    /**
-     * @param $name
-     * @param null $default
-     * @return mixed|null
-     */
-    protected function getVariable($name, $default = null)
-    {
-        if ($this->variables->offsetExists($name)) {
-            return $this->variables->offsetGet($name);
-        }
-
-        return $default;
-    }
 }
