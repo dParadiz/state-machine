@@ -46,6 +46,8 @@ Simple implementation of state machine which changes state on every request.
 Implementation of logic puzzle in with state machine. This example shows usages of guards, and state actions and use of twig renderer
 for state machine output.
 
+![](https://github.com/dParadiz/state-machine/blob/master/examples/puzzle-game/doc/puzzleGame.jpg)
+
 ## Considering to do
 
 - StateMachine builder form configuration file
