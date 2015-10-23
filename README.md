@@ -39,6 +39,8 @@ base transition needs to be extended and `execute()` implemented.
 
 Simple implementation of state machine which changes state on every request.
 
+![](https://github.com/dParadiz/state-machine/blob/master/examples/switch-state-machine/doc/swStateMachine.jpg)
+
 ###Puzzle game
 
 Implementation of logic puzzle in with state machine. This example shows usages of guards, and state actions and use of twig renderer
