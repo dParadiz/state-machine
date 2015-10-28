@@ -1,7 +1,7 @@
 <?php
 namespace StateMachine;
 
-abstract class StateMachine
+class StateMachine
 {
     use Variables;
 
@@ -78,10 +78,4 @@ abstract class StateMachine
         }
         return $this->currentState->getOutput();
     }
-
-    /**
-     * State machine initialization
-     */
-    abstract public function initialize();
-
 }

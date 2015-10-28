@@ -1,7 +1,7 @@
 <?php
 namespace StateMachine;
 
-abstract class State
+class State
 {
     use Variables;
 
