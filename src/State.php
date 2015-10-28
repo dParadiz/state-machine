@@ -1,8 +1,6 @@
 <?php
 namespace StateMachine;
 
-use Symfony\Component\HttpFoundation\Request;
-
 abstract class State
 {
     use Variables;
@@ -63,14 +61,14 @@ abstract class State
     }
 
     /**
-     * @param Request $request
+     * @param $context
      */
-    public function executeEntryActions(Request $request)
+    public function executeEntryActions($context)
     {
 
         foreach ($this->entryActions as $action) {
             $this->getStateMachine()->executionLog[] = 'Entry action ' . get_class($action);
-            $action->execute($request, $this);
+            $action->execute($context, $this);
         }
     }
 
@@ -83,13 +81,13 @@ abstract class State
     }
 
     /**
-     * @param Request $request
+     * @param $context
      */
-    public function executeExitActions(Request $request)
+    public function executeExitActions($context)
     {
         foreach ($this->exitActions as $action) {
             $this->getStateMachine()->executionLog[] = 'Exit action ' . get_class($action);
-            $action->execute($request, $this);
+            $action->execute($context, $this);
         }
     }
 

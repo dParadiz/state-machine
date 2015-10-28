@@ -13,7 +13,7 @@ class BoxSelected implements Guard
      * @param State $state
      * @return bool
      */
-    public function isAllowed(Request $request, State $state)
+    public function isAllowed($request, State $state)
     {
         $selectedBoxId = $request->query->get('selectedBox', false);
         $boxes = $state->getStateMachine()->getVariable('boxes', false);

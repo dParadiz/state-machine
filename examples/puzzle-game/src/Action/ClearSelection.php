@@ -9,11 +9,11 @@ class ClearSelection implements Action
 {
 
     /**
-     * @param Request $request
+     * @param Request $context
      * @param State $state
 
      */
-    public function execute(Request $request, State $state)
+    public function execute($context, State $state)
     {
         $state->removeVariable('selectedBox');
     }

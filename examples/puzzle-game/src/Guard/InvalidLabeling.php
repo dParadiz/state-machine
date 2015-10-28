@@ -13,7 +13,7 @@ class InvalidLabeling implements Guard
      * @param State $state
      * @return bool
      */
-    public function isAllowed(Request $request, State $state)
+    public function isAllowed($request, State $state)
     {
         $invalidLabels = false;
         if ($request->query->has('newBoxLabels')) {

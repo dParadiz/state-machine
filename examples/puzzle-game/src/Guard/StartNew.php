@@ -13,7 +13,7 @@ class StartNew implements Guard
      * @param State $state
      * @return bool
      */
-    public function isAllowed(Request $request, State $state)
+    public function isAllowed($request, State $state)
     {
         return $request->query->has('tryAgain');
     }

@@ -1,8 +1,6 @@
 <?php
 namespace StateMachine;
 
-use Symfony\Component\HttpFoundation\Request;
-
 abstract class StateMachine
 {
     use Variables;
@@ -41,28 +39,28 @@ abstract class StateMachine
     }
 
     /**
-     * @param Request $request
+     * @param $context
      */
-    public function handle(Request $request)
+    public function handle($context)
     {
         if (null === $this->currentState) {
             throw new \RuntimeException('Initial state must be set.');
         }
         $this->executionLog = [];
         $this->executionLog[] = 'Starting at state ' . get_class($this->currentState);
-        $this->currentState->executeEntryActions($request);
+        $this->currentState->executeEntryActions($context);
 
         foreach ($this->currentState->getTransitions() as $transition) {
 
             // get transition that can be executed or stay in current state
-            if ($transition->canBeExecuted($request, $this->currentState)) {
+            if ($transition->canBeExecuted($context, $this->currentState)) {
                 // exit current state
-                $this->currentState->executeExitActions($request);
+                $this->currentState->executeExitActions($context);
                 // do transition action
-                $transition->execute($request);
+                $transition->execute($context);
                 // set new state
                 $this->currentState = $transition->getEndState();
-                $this->currentState->executeEntryActions($request);
+                $this->currentState->executeEntryActions($context);
                 $this->executionLog[] = 'Moving to state ' . get_class($this->currentState);
                 // only one transition can be executed for current state
                 break;

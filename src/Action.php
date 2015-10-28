@@ -1,8 +1,6 @@
 <?php
 namespace StateMachine;
 
-use Symfony\Component\HttpFoundation\Request;
-
 /**
  * Interface Action
  * @package StateMachine
@@ -10,9 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 interface Action
 {
     /**
-     * @param Request $request
+     * @param $context
      * @param State $state
      * @return
      */
-    public function execute(Request $request, State $state);
+    public function execute($context, State $state);
 }

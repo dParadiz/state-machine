@@ -1,7 +1,6 @@
 <?php
 namespace StateMachine;
 
-use Symfony\Component\HttpFoundation\Request;
 
 class Transition
 {
@@ -26,22 +25,22 @@ class Transition
 
     /**
      * Transition action that is executed before entering end state
-     * @param Request $request
+     * @param $context
      */
-    public function execute(Request $request)
+    public function execute($context)
     {
     }
 
     /**
-     * @param Request $request
+     * @param $context
      * @param State $state
      * @return bool
      */
-    public function canBeExecuted(Request $request, State $state)
+    public function canBeExecuted($context, State $state)
     {
         foreach ($this->guards as $guard) {
 
-            if (!$guard->isAllowed($request, $state)) {
+            if (!$guard->isAllowed($context, $state)) {
                 $state->getStateMachine()->executionLog[] = 'Guard ' . get_class($guard) . ' prevents transition to ' . get_class($this->endState);
                 return false;
             }
