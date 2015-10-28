@@ -1,7 +1,6 @@
 # Finite State Machine (FSM)
 
 This is simple frame for working FSM. Framework consist of few abstract classes and interfaces that can be used to build FSM.
-Framework is dependent on `Symfony\Component\HttpFoundation\Request` which is used as FSM input. 
 
 Framework consists of following parts
 
@@ -50,5 +49,4 @@ for state machine output.
 
 ## Considering to do
 
-- StateMachine builder form configuration file
-- Removing dependency on `Symfony\Component\HttpFoundation\Request` as input parameter 
+- StateMachine builder form configuration file 
