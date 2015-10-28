@@ -1,10 +1,14 @@
-<?php
+$<?php
 require_once __DIR__ . '/../../vendor/autoload.php';
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
-use SwitchStateMachine\SwitchStateMachine as StateMachine;
+
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+
 
 $request = Request::createFromGlobals();
 
@@ -15,9 +19,13 @@ $session->start();
 if ($session->has('switchStateMachine')) {
     $sm = $session->get('switchStateMachine');
 } else  {
-    $sm = new StateMachine();
-    $sm->initialize();
+    $container = new ContainerBuilder();
+    $loader = new YamlFileLoader($container, new FileLocator(__DIR__ . '/../../examples/switch-state-machine/config'));
+    $loader->load('services.yml');
+
+    $sm = $container->get('state_machine');
 }
+
 // process request by state machine and get output
 $sm->handle($request);
 // save last sate

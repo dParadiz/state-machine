@@ -1,0 +1,36 @@
+services:
+  #states
+  red:
+    class: SwitchStateMachine\State\Red
+    calls:
+      - [addTransition, ["@to_blue"]]
+  blue:
+    class: SwitchStateMachine\State\Blue
+    calls:
+      - [addTransition, ["@to_green"]]
+  green:
+    class: SwitchStateMachine\State\Green
+    calls:
+      - [addTransition, ["@to_red"]]
+  initial:
+    class: StateMachine\State
+    calls:
+      - [addTransition, ["@to_red"]]
+  #transitions
+  to_red:
+    class: StateMachine\Transition
+    arguments: ["@red"]
+  to_blue:
+    class: StateMachine\Transition
+    arguments: ["@blue"]
+  to_green:
+    class: StateMachine\Transition
+    arguments: ["@green"]
+  #state machine
+  state_machine:
+    class: StateMachine\StateMachine
+    calls:
+      - [addState, ["@red"]]
+      - [addState, ["@blue"]]
+      - [addState, ["@green"]]
+      - [setInitialState, ["@initial"]]
