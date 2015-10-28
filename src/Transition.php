@@ -9,6 +9,11 @@ class Transition
      */
     protected $endState;
 
+    /**
+     * @var State
+     */
+    protected $startingState;
+
     /** @var Guard[] */
     protected $guards = [];
 
@@ -17,10 +22,18 @@ class Transition
      * @param State $endState
      * @param Guard[] $guards
      */
-    public function __construct(State $endState, array $guards = [])
+    public function __construct($endState, array $guards = [])
     {
         $this->endState = $endState;
         $this->guards = $guards;
+    }
+
+    /**
+     * @param State $startingState
+     */
+    public function setStartingState($startingState)
+    {
+        $this->startingState = $startingState;
     }
 
     /**
@@ -33,18 +46,21 @@ class Transition
 
     /**
      * @param $context
-     * @param State $state
      * @return bool
      */
-    public function canBeExecuted($context, State $state)
+    public function canBeExecuted($context)
     {
+        if (null === $this->startingState) {
+            throw new \RuntimeException('Starting state must be set before state can be executed');
+        }
+
         foreach ($this->guards as $guard) {
 
-            if (!$guard->isAllowed($context, $state)) {
-                $state->getStateMachine()->executionLog[] = 'Guard ' . get_class($guard) . ' prevents transition to ' . get_class($this->endState);
+            if (!$guard->isAllowed($context, $this->startingState)) {
+                $this->startingState->getStateMachine()->executionLog[] = 'Guard ' . get_class($guard) . ' prevents transition to ' . get_class($this->endState);
                 return false;
             }
-            $state->getStateMachine()->executionLog[] = 'Guard ' . get_class($guard) . ' allows transition to ' . get_class($this->endState);
+            $this->startingState->getStateMachine()->executionLog[] = 'Guard ' . get_class($guard) . ' allows transition to ' . get_class($this->endState);
         }
 
         return true;

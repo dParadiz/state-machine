@@ -49,6 +49,7 @@ class State
      */
     public function addTransition(Transition $transition)
     {
+        $transition->setStartingState($this);
         $this->transitions[] = $transition;
     }
 

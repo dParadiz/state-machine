@@ -53,7 +53,7 @@ class StateMachine
         foreach ($this->currentState->getTransitions() as $transition) {
 
             // get transition that can be executed or stay in current state
-            if ($transition->canBeExecuted($context, $this->currentState)) {
+            if ($transition->canBeExecuted($context)) {
                 // exit current state
                 $this->currentState->executeExitActions($context);
                 // do transition action
