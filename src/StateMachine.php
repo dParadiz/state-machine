@@ -6,7 +6,7 @@ abstract class StateMachine
     use Variables;
 
     /**
-     * Debuging log
+     * Debug log
      * @var array
      */
     public $executionLog = [];
