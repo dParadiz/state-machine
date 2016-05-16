@@ -2,6 +2,7 @@
   "name": "dparadiz/state-machine",
   "description": "State Machine",
   "minimum-stability": "stable",
+  "licence" : "MIT",
   "authors": [
     {
       "name": "Dejan Paradiz",
