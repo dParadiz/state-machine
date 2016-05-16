@@ -1,9 +1,8 @@
 <?php
 namespace StateMachine;
 
-use Symfony\Component\HttpFoundation\Request;
 
-abstract class StateMachine
+class StateMachine
 {
     use Variables;
 
@@ -41,16 +40,15 @@ abstract class StateMachine
     }
 
     /**
-     * @param Request $request
+     * @param $request
      */
-    public function handle(Request $request)
+    public function handle($request)
     {
         if (null === $this->currentState) {
             throw new \RuntimeException('Initial state must be set.');
         }
         $this->executionLog = [];
         $this->executionLog[] = 'Starting at state ' . get_class($this->currentState);
-        $this->currentState->executeEntryActions($request);
 
         foreach ($this->currentState->getTransitions() as $transition) {
 
@@ -81,9 +79,5 @@ abstract class StateMachine
         return $this->currentState->getOutput();
     }
 
-    /**
-     * State machine initialization
-     */
-    abstract public function initialize();
-
+  
 }

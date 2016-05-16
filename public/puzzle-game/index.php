@@ -15,8 +15,7 @@ $session->start();
 if ($session->has('puzzleGameStateMachine')) {
     $sm = $session->get('puzzleGameStateMachine');
 } else {
-    $sm = new LogicPuzzle();
-    $sm->initialize();
+    $sm =  \PuzzleGame\LogicPuzzleFactory::create();    
 }
 
 $sm->handle($request);

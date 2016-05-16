@@ -3,10 +3,13 @@ namespace SwitchStateMachine;
 
 use StateMachine;
 
-class SwitchStateMachine extends StateMachine\StateMachine
+class SwitchStateMachineFactory
 {
 
-    public function initialize()
+    /**
+     * @return StateMachine\StateMachine
+     */
+    public static function create()
     {
         $redState = new State\Red();
         $greenState = new State\Green();
@@ -18,10 +21,13 @@ class SwitchStateMachine extends StateMachine\StateMachine
         $blueState->addTransition(new StateMachine\Transition($greenState));
         $greenState->addTransition(new StateMachine\Transition($redState));
 
-        $this->addState($redState);
-        $this->addState($blueState);
-        $this->addState($greenState);
+        $sm = new StateMachine\StateMachine();
+        $sm->addState($redState);
+        $sm->addState($blueState);
+        $sm->addState($greenState);
 
-        $this->setInitialState($initialState);
+        $sm->setInitialState($initialState);
+
+        return $sm;
     }
 }
