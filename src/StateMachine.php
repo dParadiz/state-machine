@@ -7,7 +7,7 @@ class StateMachine
     use Variables;
 
     /**
-     * Debuging log
+     * Debugging log
      * @var array
      */
     public $executionLog = [];
