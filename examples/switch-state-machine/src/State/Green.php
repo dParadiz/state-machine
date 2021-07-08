@@ -1,14 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace SwitchStateMachine\State;
 
 use StateMachine\State;
 
-class Green extends State
+final class Green extends State
 {
-    /**
-     * @return string
-     */
-    public function getOutput()
+
+    public function getOutput(): string
     {
         return 'Green';
     }

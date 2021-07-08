@@ -1,20 +1,15 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace PuzzleGame\Guard;
 
 use StateMachine\Guard;
 use StateMachine\State;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
-class StartNew implements Guard
+final class StartNew implements Guard
 {
-
-    /**
-     * @param Request $request
-     * @param State $state
-     * @return bool
-     */
-    public function isAllowed(Request $request, State $state)
+    public function isAllowed(ServerRequestInterface $request, State $state): bool
     {
-        return $request->query->has('tryAgain');
+        return isset($request->getQueryParams()['tryAgain']);
     }
 }

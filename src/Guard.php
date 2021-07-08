@@ -1,14 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace StateMachine;
 
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 interface Guard
 {
-    /**
-     * @param Request $request
-     * @param State $state
-     * @return bool
-     */
-    public function isAllowed(Request $request, State $state);
+    public function isAllowed(ServerRequestInterface $request, State $state): bool;
 }

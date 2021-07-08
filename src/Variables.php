@@ -1,47 +1,32 @@
-<?php
-namespace StateMachine;
+<?php declare(strict_types=1);
 
+namespace StateMachine;
 
 trait Variables
 {
-    /**
-     * @var \ArrayObject
-     */
-    private $variables;
+    private \ArrayObject $variables;
 
-    /**
-     * @param $name
-     * @param $value
-     */
-    public function setVariable($name, $value)
+    public function setVariable(string|int $name, mixed $value)
     {
-        if (null === $this->variables) {
+        if (!isset($this->variables)) {
             $this->variables = new \ArrayObject();
         }
 
         $this->variables->offsetSet($name, $value);
     }
 
-    /**
-     * @param $name
-     * @param null $default
-     * @return mixed|null
-     */
-    public function getVariable($name, $default = null)
+    public function getVariable(string|int $name, mixed $default = null): mixed
     {
-        if (null !== $this->variables && $this->variables->offsetExists($name)) {
+        if (isset($this->variables) && $this->variables->offsetExists($name)) {
             return $this->variables->offsetGet($name);
         }
 
         return $default;
     }
 
-    /**
-     * @param $variable
-     */
-    public function removeVariable($variable)
+    public function removeVariable(string|int $variable): void
     {
-        if (null === $this->variables) {
+        if (!isset($this->variables)) {
             return;
         }
         if ($this->variables->offsetExists($variable)) {

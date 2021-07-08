@@ -1,43 +1,30 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace StateMachine;
 
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 class Transition
 {
-    /**
-     * @var State
-     */
-    protected $endState;
+
+    protected State $endState;
 
     /** @var Guard[] */
-    protected $guards = [];
+    protected array $guards = [];
 
-    /**
-     * Transition constructor.
-     * @param State $endState
-     * @param Guard[] $guards
-     */
+
     public function __construct(State $endState, array $guards = [])
     {
         $this->endState = $endState;
         $this->guards = $guards;
     }
 
-    /**
-     * Transition action that is executed before entering end state
-     * @param Request $request
-     */
-    public function execute(Request $request)
+
+    public function execute(ServerRequestInterface $request): void
     {
     }
 
-    /**
-     * @param Request $request
-     * @param State $state
-     * @return bool
-     */
-    public function canBeExecuted(Request $request, State $state)
+    public function canBeExecuted(ServerRequestInterface $request, State $state): bool
     {
         foreach ($this->guards as $guard) {
 
@@ -51,10 +38,7 @@ class Transition
         return true;
     }
 
-    /**
-     * @return State
-     */
-    public function getEndState()
+    public function getEndState(): State
     {
         return $this->endState;
     }

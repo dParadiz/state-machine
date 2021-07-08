@@ -1,19 +1,15 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace PuzzleGame\Action;
 
 use StateMachine\Action;
 use StateMachine\State;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
-class ClearSelection implements Action
+final class ClearSelection implements Action
 {
 
-    /**
-     * @param Request $request
-     * @param State $state
-
-     */
-    public function execute(Request $request, State $state)
+    public function execute(ServerRequestInterface $request, State $state): void
     {
         $state->removeVariable('selectedBox');
     }

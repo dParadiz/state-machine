@@ -1,15 +1,12 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace SwitchStateMachine;
 
 use StateMachine;
 
-class SwitchStateMachineFactory
+final class SwitchStateMachineFactory
 {
-
-    /**
-     * @return StateMachine\StateMachine
-     */
-    public static function create()
+    public static function create(): StateMachine\StateMachine
     {
         $redState = new State\Red();
         $greenState = new State\Green();

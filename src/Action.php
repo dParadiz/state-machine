@@ -1,18 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace StateMachine;
 
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
-/**
- * Interface Action
- * @package StateMachine
- */
 interface Action
 {
-    /**
-     * @param Request $request
-     * @param State $state
-     * @return
-     */
-    public function execute(Request $request, State $state);
+    public function execute(ServerRequestInterface $request, State $state): void;
 }

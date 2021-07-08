@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace StateMachine;
 
 
@@ -10,21 +11,15 @@ class StateMachine
      * Debugging log
      * @var array
      */
-    public $executionLog = [];
+    public array $executionLog = [];
 
-    /**
-     * @var State
-     */
-    protected $currentState;
+    protected ?State $currentState = null;
 
     /**
      * @var State[]
      */
-    protected $states = [];
+    protected array $states = [];
 
-    /**
-     * @param State $state
-     */
     public function addState(State $state)
     {
         $state->setStateMachine($this);
@@ -68,16 +63,17 @@ class StateMachine
         }
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOutput()
+    public function getOutput(): mixed
     {
         if (null === $this->currentState) {
             return null;
         }
+
         return $this->currentState->getOutput();
     }
 
-  
+    public function getState(): ?State
+    {
+        return $this->currentState;
+    }
 }

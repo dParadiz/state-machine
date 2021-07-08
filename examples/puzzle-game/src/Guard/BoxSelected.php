@@ -1,23 +1,24 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace PuzzleGame\Guard;
 
 use StateMachine\Guard;
 use StateMachine\State;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
-class BoxSelected implements Guard
+final class BoxSelected implements Guard
 {
 
-    /**
-     * @param Request $request
-     * @param State $state
-     * @return bool
-     */
-    public function isAllowed(Request $request, State $state)
+
+    public function isAllowed(ServerRequestInterface $request, State $state): bool
     {
-        $selectedBoxId = $request->query->get('selectedBox', false);
+        $queryParams = $request->getQueryParams();
+        $selectedBoxId = $queryParams['selectedBox'] ?? false;
         $boxes = $state->getStateMachine()->getVariable('boxes', false);
 
-        return $request->query->has('selectedBox') && $boxes && isset($boxes[$selectedBoxId]) && !$state->getVariable('selectedBox', false);
+        return isset($queryParams['selectedBox'])
+            && $boxes !== false
+            && isset($boxes[$selectedBoxId])
+            && !$state->getVariable('selectedBox', false);
     }
 }

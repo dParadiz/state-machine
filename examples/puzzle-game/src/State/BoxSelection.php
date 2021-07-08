@@ -1,18 +1,19 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace PuzzleGame\State;
 
+use JetBrains\PhpStorm\ArrayShape;
 use StateMachine\State;
 
-class BoxSelection extends State
+final class BoxSelection extends State
 {
     const APPLES = 'Apples';
     const ORANGES = 'Oranges';
     const ORANGES_APPLES = 'Oranges and Apples';
 
-    /**
-     * @return array
-     */
-    public function getOutput()
+
+    #[ArrayShape(['boxes' => "array"])]
+    public function getOutput(): array
     {
         $boxContent = [self::APPLES, self::ORANGES, self::ORANGES_APPLES];
 
@@ -46,5 +47,4 @@ class BoxSelection extends State
             'boxes' => $boxes
         ];
     }
-
 }

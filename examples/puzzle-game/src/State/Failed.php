@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace PuzzleGame\State;
 
 use StateMachine\State;
 
-class Failed extends State
+final class Failed extends State
 {
 
 }

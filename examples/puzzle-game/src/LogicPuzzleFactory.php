@@ -1,15 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace PuzzleGame;
 
 use StateMachine;
 
-class LogicPuzzleFactory
+final class LogicPuzzleFactory
 {
-    /**
-     * @return LogicPuzzle
-     */
-    public static function create()
+    public static function create(): StateMachine\StateMachine
     {
         $initial = new State\Initial();
         $boxSelection = new State\BoxSelection();
@@ -41,7 +38,7 @@ class LogicPuzzleFactory
             new Guard\StartNew()
         ]));
 
-        $sm = new LogicPuzzle();
+        $sm = new StateMachine\StateMachine();
         $sm->addState($initial);
         $sm->addState($boxSelection);
         $sm->addState($labelSelection);

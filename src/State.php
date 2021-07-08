@@ -1,91 +1,68 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace StateMachine;
 
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface;
 
 abstract class State
 {
     use Variables;
 
     /**
-     * List of transitions from this state
      * @var Transition[]
      */
-    protected $transitions = [];
+    protected array $transitions = [];
 
     /**
-     * List of actions that are executed when entering the state
      * @var Action[]
      */
-    protected $entryActions = [];
+    protected array $entryActions = [];
 
     /**
-     * List of actions that are executed when exiting the state
      * @var Action[]
      */
-    protected $exitActions = [];
+    protected array $exitActions = [];
 
-    /**
-     * @var StateMachine
-     */
-    protected $stateMachine;
 
-    /**
-     * @param StateMachine $stateMachine
-     */
-    public function setStateMachine($stateMachine)
+    protected StateMachine $stateMachine;
+
+    public function setStateMachine(StateMachine $stateMachine): void
     {
         $this->stateMachine = $stateMachine;
     }
 
-    /**
-     * @return StateMachine
-     */
-    public function getStateMachine()
+
+    public function getStateMachine(): StateMachine
     {
         return $this->stateMachine;
     }
 
-    /**
-     * @param Transition $transition
-     */
-    public function addTransition(Transition $transition)
+    public function addTransition(Transition $transition): void
     {
         $this->transitions[] = $transition;
     }
 
-    /**
-     * @param Action $action
-     */
-    public function addEntryAction(Action $action)
+
+    public function addEntryAction(Action $action): void
     {
         $this->entryActions[] = $action;
     }
 
-    /**
-     * @param Request $request
-     */
-    public function executeEntryActions(Request $request)
+    public function executeEntryActions(ServerRequestInterface $request): void
     {
-
         foreach ($this->entryActions as $action) {
             $this->getStateMachine()->executionLog[] = 'Entry action ' . get_class($action);
             $action->execute($request, $this);
         }
     }
 
-    /**
-     * @param Action $action
-     */
-    public function addExitAction(Action $action)
+
+    public function addExitAction(Action $action): void
     {
         $this->exitActions[] = $action;
     }
 
-    /**
-     * @param Request $request
-     */
-    public function executeExitActions(Request $request)
+    public function executeExitActions(ServerRequestInterface $request): void
     {
         foreach ($this->exitActions as $action) {
             $this->getStateMachine()->executionLog[] = 'Exit action ' . get_class($action);
@@ -93,20 +70,13 @@ abstract class State
         }
     }
 
-    /**
-     * @return Transition[]
-     */
-    public function getTransitions()
+    public function getTransitions(): array
     {
         return $this->transitions;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getOutput()
+    public function getOutput(): mixed
     {
-
+        return null;
     }
-
 }

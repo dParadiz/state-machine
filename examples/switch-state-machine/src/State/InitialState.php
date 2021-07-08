@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 namespace SwitchStateMachine\State;
 
 use StateMachine\State;
 
-class InitialState extends State
+final class InitialState extends State
 {
 }
